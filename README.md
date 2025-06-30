@@ -93,6 +93,3 @@ docker-compose up --build
 Añadir seguridad JWT o OAuth2 para proteger las APIs.
 
 Automatizar el despliegue con pipelines CI/CD.
-
-Despliegue automatizado con pipelines CI/CD (GitHub Actions, GitLab CI o Jenkins).
-
