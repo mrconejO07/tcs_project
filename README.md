@@ -62,6 +62,18 @@ La entidad `Cuenta` incluye un campo `saldo`, que representa el **saldo actual d
 
 ---
 
+## 🔐 Configuración de variables de entorno
+
+El proyecto requiere ciertas variables de entorno para funcionar correctamente (por ejemplo las credenciales para el repo de GitHub). Estas variables **no se encuentran en el repositorio por motivos de seguridad**, ya que el archivo `.env` está excluido mediante `.gitignore`.
+
+### 📄 ¿Qué hacer?
+
+1. Copia el archivo de ejemplo:
+   ```bash
+   cp .env.example .env
+
+---
+
 ## 🧪 Ejecución local
 
 ```bash
