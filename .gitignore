@@ -1,0 +1,19 @@
+# Archivos de compilación
+target/
+*.class
+
+# Archivos temporales de IntelliJ / Eclipse
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Archivos de sistema
+.DS_Store
+
+# Logs
+*.log
+
+# Docker
+*.tar
+.env

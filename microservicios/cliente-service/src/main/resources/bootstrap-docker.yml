@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      name: cliente-service
+      uri: http://config-service:9091
+      username: admin
+      password: s3cr3t*
+      fail-fast: true

@@ -1,0 +1,90 @@
+services:
+  rabbitmq-docker:
+    container_name: rabbitmq-docker
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - tcs-net
+
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: tcs_project
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - tcs-net
+
+  config-service:
+    container_name: config-service
+    build:
+      context: ./microservicios/config-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./config-data:/config
+    environment:
+      - GIT_USERNAME=${GIT_USERNAME}
+      - GIT_PASSWORD=${GIT_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:/config
+    networks:
+      - tcs-net
+
+  cliente-service:
+    container_name: cliente-service
+    build:
+      context: ./microservicios/cliente-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres-db
+      - config-service
+      - rabbitmq-docker
+    networks:
+      - tcs-net
+
+  cuenta-service:
+    container_name: cuenta-service
+    build:
+      context: ./microservicios/cuenta-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres-db
+      - config-service
+      - rabbitmq-docker
+    networks:
+      - tcs-net
+
+  gateway-service:
+    container_name: gateway-service
+    build:
+      context: ./microservicios/gateway-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "9093:9093"
+    depends_on:
+      - cliente-service
+      - cuenta-service
+    networks:
+      - tcs-net
+
+networks:
+  tcs-net:

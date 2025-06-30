@@ -1,0 +1,24 @@
+# Puerto en el que el servicio arrancará
+server:
+  port: 9091
+spring:
+  profiles:
+    active: docker
+  application:
+    name: config-service
+  cloud:
+    config:
+      enabled: false
+      server:
+        git:
+          uri: https://github.com/mrconejO07/config-environment-tcs.git
+          default-label: master
+          force-pull: true
+          timeout: 10
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASSWORD}
+  # Seguridad Config Server
+  security:
+    user:
+      name: admin
+      password: s3cr3t*
